@@ -1,0 +1,26 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model AgentsCustomersOrders.ViewModels.Home.AgentsViewModel
+
+<table class="table">
+    <tr>
+        <th>Agent Code</th>
+        <th>Name</th>
+        <th>Working Area</th>
+        <th>Comission</th>
+        <th>Phone Number</th>
+    </tr>
+    @foreach (var agent in Model.Agents)
+    {
+        <tr>
+            <td><a href="/Agents/Detail/@agent.AgentCode">@agent.AgentCode</a></td>
+            <td>@agent.AgentName</td>
+            <td>@agent.WorkingArea</td>
+            <td>@agent.Commission</td>
+            <td>@agent.PhoneNo</td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,14 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model AgentsCustomersOrders.ViewModels.Home.AgentsViewModel 
+
+<div>
+    <h1>Agent @Model.agent.AgentCode</h1>
+    <p>Name: @Model.agent.AgentName</p>
+    <p>Working Area: @Model.agent.WorkingArea</p>
+    <p>Comission: @Model.agent.Commission</p>
+    <p>Phone Number: @Model.agent.PhoneNo</p>
+</div>

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AgentsCustomersOrders.Models;
 using AgentsCustomersOrders.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace AgentsCustomersOrders.Controllers
@@ -14,56 +15,23 @@ namespace AgentsCustomersOrders.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IConfiguration _configuration;
+        private readonly AgentData _agentData;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IConfiguration configuration, AgentData agentData)
         {
             _logger = logger;
-        }
-
-        private List<Agent> AllAgentData()
-        {
-            var agents = new List<Agent>();
-
-            using (var conn = new SqlConnection("Server=.;Database=AgentsCustomersOrders;Trusted_Connection=True;"))
-            {
-                conn.Open();
-
-                var cmd = new SqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandType = System.Data.CommandType.Text;
-                cmd.CommandText = "SELECT * FROM Agents";
-
-                var reader = cmd.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    var agentCode = reader["AgentCode"].ToString();
-                    var agentName = reader["AgentName"].ToString();
-                    var workingArea = reader["WorkingArea"].ToString();
-                    var commission = Convert.ToDouble(reader["Commission"]);
-                    var phoneNo = reader["PhoneNo"].ToString();
-
-                    agents.Add(new Agent
-                    {
-                        AgentCode = agentCode,
-                        AgentName = agentName,
-                        WorkingArea = workingArea,
-                        Commission = commission,
-                        PhoneNo = phoneNo
-                    });
-                }
-            }
-            return agents;
+            _configuration = configuration;
+            _agentData = agentData;
         }
 
         public IActionResult Index()
         {
-            var agents = AllAgentData();
+            var agents = _agentData.AllAgentData();
 
             var vm = new HomeViewModel();
             vm.Agents = agents;
-            
-            
+
             return View(vm);
         }
 

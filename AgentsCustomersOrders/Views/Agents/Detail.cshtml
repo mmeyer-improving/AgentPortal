@@ -12,3 +12,8 @@
     <p>Comission: @Model.agent.Commission</p>
     <p>Phone Number: @Model.agent.PhoneNo</p>
 </div>
+
+<form method="post" action="/agents/delete">
+    <input type="submit" class="btn btn-danger" title="Delete" />
+    <input type="hidden" name="agentCode" value="@Model.agent.AgentCode" />
+</form>

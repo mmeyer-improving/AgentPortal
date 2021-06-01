@@ -42,6 +42,13 @@ namespace AgentsCustomersOrders.Controllers
             return View(vm);
         }
 
+        [HttpPost]
+        public IActionResult Delete(Agent agent)
+        {
+            _agentData.DeleteAgent(agent.AgentCode);
+            return RedirectToAction("Index");
+        }
+
         [HttpGet]
         public IActionResult NewAgent()
         {

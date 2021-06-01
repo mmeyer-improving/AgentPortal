@@ -33,13 +33,26 @@ namespace AgentsCustomersOrders.Controllers
             return View(vm);
         }
 
-        public IActionResult Detail(string agentCode)
+        public IActionResult Detail(string id)
         {
-            var agent = _agentData.getSingleAgent(agentCode);
+            var agent = _agentData.getSingleAgent(id);
             var vm = new AgentsViewModel();
             vm.agent = agent;
 
             return View(vm);
+        }
+
+        [HttpGet]
+        public IActionResult NewAgent()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult NewAgent(Agent agent)
+        {
+            _agentData.CreateNewAgent(agent);
+            return RedirectToAction("Index");
         }
     }
 }

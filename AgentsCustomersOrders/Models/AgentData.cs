@@ -66,7 +66,7 @@ namespace AgentsCustomersOrders.Models
                 var cmd = new SqlCommand();
                 cmd.Connection = conn;
                 cmd.CommandType = System.Data.CommandType.Text;
-                cmd.CommandText = "SELECT * FROM Agents WHERE AgentCode = @agentCode";
+                cmd.CommandText = "SELECT * FROM Agents WHERE AgentCode =  @agentCode";
                 cmd.Parameters.AddWithValue("@agentCode", agentCode);
 
                 var reader = cmd.ExecuteReader();
@@ -81,6 +81,28 @@ namespace AgentsCustomersOrders.Models
                 }
             }
             return agent;
+        }
+
+        public void CreateNewAgent(Agent agent)
+        {
+            string connString = _configuration.GetConnectionString("default");
+            using (var conn = new SqlConnection(connString))
+            {
+                conn.Open();
+
+                var cmd = new SqlCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "INSERT INTO Agents (AgentCode, AgentName, WorkingArea, Commission, PhoneNo) VALUES (@agentCode, @agentName, @workingArea, @commission, @phoneNo)";
+                cmd.Parameters.AddWithValue("@agentCode", agent.AgentCode);
+                cmd.Parameters.AddWithValue("@agentName", agent.AgentName);
+                cmd.Parameters.AddWithValue("@workingArea", agent.WorkingArea);
+                cmd.Parameters.AddWithValue("@commission", agent.Commission);
+                cmd.Parameters.AddWithValue("@phoneNo", agent.PhoneNo);
+
+                cmd.Connection = conn;
+
+                cmd.ExecuteNonQuery();
+            }
         }
     }
     

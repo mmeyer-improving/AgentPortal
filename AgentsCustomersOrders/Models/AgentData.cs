@@ -107,6 +107,28 @@ namespace AgentsCustomersOrders.Models
             }
         }
 
+        public void UpdateAgent(Agent agent)
+        {
+            string connString = _configuration.GetConnectionString("default");
+            using (var conn = new SqlConnection(connString))
+            {
+                conn.Open();
+
+                var cmd = new SqlCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE Agents SET AgentName = @agentName, WorkingArea = @workingArea, Commission = @commission, PhoneNo = @phoneNo WHERE AgentCode = @agentCode";
+                cmd.Parameters.AddWithValue("@agentName", agent.AgentName);
+                cmd.Parameters.AddWithValue("@workingArea", agent.WorkingArea);
+                cmd.Parameters.AddWithValue("@commission", agent.Commission);
+                cmd.Parameters.AddWithValue("@phoneNo", agent.PhoneNo);
+                cmd.Parameters.AddWithValue("@agentCode", agent.AgentCode);
+                
+
+                cmd.Connection = conn;
+                cmd.ExecuteNonQuery();
+            }
+        }
+
         public void DeleteAgent(String agentCode)
         {
             string connString = _configuration.GetConnectionString("default");

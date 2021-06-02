@@ -23,6 +23,7 @@ namespace AgentsCustomersOrders.Controllers
             _agentData = agentdata;
         }
 
+        //Index
         public IActionResult Index()
         {
             var agents = _agentData.AllAgentData();
@@ -33,22 +34,7 @@ namespace AgentsCustomersOrders.Controllers
             return View(vm);
         }
 
-        public IActionResult Detail(string id)
-        {
-            var agent = _agentData.getSingleAgent(id);
-            var vm = new AgentsViewModel();
-            vm.agent = agent;
-
-            return View(vm);
-        }
-
-        [HttpPost]
-        public IActionResult Delete(Agent agent)
-        {
-            _agentData.DeleteAgent(agent.AgentCode);
-            return RedirectToAction("Index");
-        }
-
+        //Create Agent
         [HttpGet]
         public IActionResult NewAgent()
         {
@@ -59,6 +45,43 @@ namespace AgentsCustomersOrders.Controllers
         public IActionResult NewAgent(Agent agent)
         {
             _agentData.CreateNewAgent(agent);
+            return RedirectToAction("Index");
+        }
+
+        //Get agent details
+        public IActionResult Detail(string id)
+        {
+            var agent = _agentData.getSingleAgent(id);
+            var vm = new AgentsViewModel();
+            vm.agent = agent;
+
+            return View(vm);
+        }
+
+        //Edit agent
+        [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            var agent = _agentData.getSingleAgent(id);
+            var vm = new AgentsViewModel();
+            vm.agent = agent;
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Agent agent)
+        {
+            _agentData.UpdateAgent(agent);
+            return RedirectToAction("Index");
+        }
+
+
+        //Delete agent
+        [HttpPost]
+        public IActionResult Delete(Agent agent)
+        {
+            _agentData.DeleteAgent(agent.AgentCode);
             return RedirectToAction("Index");
         }
     }

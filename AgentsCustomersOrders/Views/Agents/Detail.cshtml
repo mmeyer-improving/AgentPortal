@@ -6,7 +6,7 @@
 @model AgentsCustomersOrders.ViewModels.Home.AgentsViewModel 
 
 <div>
-    <h1>Agent @Model.agent.AgentCode</h1>
+    <h2>Agent @Model.agent.AgentCode</h2>
     <p>Name: @Model.agent.AgentName</p>
     <p>Working Area: @Model.agent.WorkingArea</p>
     <p>Comission: @Model.agent.Commission</p>
@@ -14,6 +14,10 @@
 </div>
 
 <form method="post" action="/agents/delete">
-    <input type="submit" class="btn btn-danger" title="Delete" />
+    <button type="submit" class="btn btn-danger">Delete</button>
     <input type="hidden" name="agentCode" value="@Model.agent.AgentCode" />
+</form>
+
+<form method="get" action="/agents/edit/@Model.agent.AgentCode">
+    <button type="submit" class="btn btn-outline-primary">Edit</button>
 </form>
